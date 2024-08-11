@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "RM Mono";
+  src: local("RM Mono Regular"), local("RMMono-Regular"), url("font/RMMono-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orbitron-Regular";
+  src: local("Orbitron Regular"), local("Orbitron-Regular"), url("font/Orbitron-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+body {
+  font-family: "Orbitron-Regular";
+  min-height: 100vh;
+  background-color: #212121;
+  overflow: hidden;
+}
+
+canvas {
+  position: absolute;
+  display: block;
+}
+
+.image {
+  display: none;
+}
+
+.control {
+  position: absolute;
+  z-index: 100;
+}
+.control #warp-button {
+  font-family: "Bangers", serif;
+  padding: 5px 15px 3px 10px;
+  border-radius: 5px;
+  font-size: 2em;
+  color: #f00;
+  margin: 10px;
+}
