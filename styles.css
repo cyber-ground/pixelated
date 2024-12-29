@@ -10,7 +10,7 @@
 }
 body {
   font-family: "Orbitron-Regular";
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: #212121;
   overflow: hidden;
 }
@@ -18,6 +18,8 @@ body {
 canvas {
   position: absolute;
   display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .image {

@@ -269,7 +269,7 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
     canvas.width = innerWidth;
     canvas.height = innerHeight;
     const PARTICLE_SIZE = 4;
-    const GAP = 5;
+    const GAP = 4;
     class Particle {
       constructor(effect, x, y, color) {
         this.effect = effect;
@@ -343,23 +343,25 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
           y: undefined
         }
         document.addEventListener('mousemove', (e) => {
-          effect.mouse.x = e.clientX;
-          effect.mouse.y = e.clientY;
+          this.mouse.x = e.clientX;
+          this.mouse.y = e.clientY;
         });
-        //* mobile event
+        //* mobile event ---
         document.addEventListener('touchmove', (e) => {
           this.mouse.radius = 30;
-          effect.mouse.x = e.touches[0].clientX;
-          effect.mouse.y = e.touches[0].clientY;
+          this.mouse.x = e.touches[0].clientX;
+          this.mouse.y = e.touches[0].clientY;
         });
-        document.addEventListener('touchend', (e) => {
-          effect.mouse.x = -this.mouse.radius;
-          effect.mouse.y = -this.mouse.radius;
+        document.addEventListener('touchend', () => {
+          setTimeout(() => {
+            this.mouse.x = -this.mouse.radius;
+            this.mouse.y = -this.mouse.radius;
+          }, 100);
         });
         //* fullSize ---
         // document.addEventListener('mouseleave', () => { 
-        //   effect.mouse.x = -this.mouse.radius;
-        //   effect.mouse.y = -this.mouse.radius;
+        //   this.mouse.x = -this.mouse.radius;
+        //   this.mouse.y = -this.mouse.radius;
         // });
       }
       spawnParticles(ctx) {
@@ -396,10 +398,10 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
     const warpBtn = document.getElementById('warp-button');
     warpBtn.addEventListener('click', () => {
       effect.warp();
+      //* added for mobile ---
       effect.mouse.x = -effect.mouse.radius;
       effect.mouse.y = -effect.mouse.radius;
     });
-
 
     function animate() {
       // ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
@@ -409,10 +411,11 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
       effect.draw(ctx);
       requestAnimationFrame(animate);
     } animate();
+
+    window.addEventListener('resize', () => {
+      window.location.reload();
+    });
   });
-
-
-
 
 // ---------------------------------------------------------------------------------
 
