@@ -345,6 +345,7 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
         document.addEventListener('mousemove', (e) => {
           this.mouse.x = e.clientX;
           this.mouse.y = e.clientY;
+          console.log(this.mouse.x);
         });
         //* mobile event ---
         document.addEventListener('touchmove', (e) => {
@@ -391,6 +392,18 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
       warp() {
         this.ParticleArr.forEach(particle => { particle.warp() });
       }
+      resize() {
+        this.ParticleArr = [];
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+        this.width = canvas.width;
+        this.height = canvas.height;
+        this.cx = this.width/2;
+        this.cy = this.height/2;
+        this.x = this.cx - this.image.width/2;
+        this.y = this.cy - this.image.height/2;
+        this.spawnParticles(ctx);
+      }
     }
 
     const effect = new Effect(canvas.width, canvas.height);
@@ -413,7 +426,7 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
     } animate();
 
     window.addEventListener('resize', () => {
-      window.location.reload();
+      effect.resize();
     });
   });
 
