@@ -16,10 +16,15 @@
 
 // ----------------------------------------
 
+html {
+  overscroll-behavior-y: none;
+}
+
+
 $bg: #212121;
 body {
-  // font-family: 'Poppins', serif;
   font-family: 'Orbitron-Regular';
+  // font-family: 'Poppins', serif;
   // display: flex;
   // justify-content: center;
   // align-items: center;
