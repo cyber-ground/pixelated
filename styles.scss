@@ -1,16 +1,15 @@
 @charset "utf-8";
 
 @font-face {
-  font-family: 'RM Mono';
-  src: local('RM Mono Regular'), local('RMMono-Regular'),
-  url('font/RMMono-Regular.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'Orbitron-Regular';
   src: local('Orbitron Regular'), local('Orbitron-Regular'),
   url('font/Orbitron-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bangers';
+  src: local('Bangers'),
+  url('font/Bangers.ttf') format('truetype');
   font-display: swap;
 }
 
@@ -18,46 +17,51 @@
 
 $bg: #212121;
 body {
-  font-family: 'Orbitron-Regular';
-  // font-family: 'Poppins', serif;
+  // font-family: 'Orbitron-Regular';
   // display: flex;
   // justify-content: center;
   // align-items: center;
   // flex-direction: column;
-  min-height: 100dvh;
   background-color: $bg;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
 // ----------------------------------------
 //* Pixelated Image ---
 
-
-canvas {
-  position: absolute;
-  display: block;
-  // background-color: #05f;
-  //* added for mobile ---
+.container {
   width: 100%;
   height: 100%;
-}
-
-.image {
-  // position: absolute;
-  // z-index: 1000;
-  display: none;
-}
-
-.control {
-  position: absolute;
-  z-index: 100;
-  #warp-button {
-    font-family: 'Bangers', serif;
-    padding: 5px 15px 3px 10px;
-    border-radius: 5px;
-    font-size: 2em;
-    color: #f00;
-    margin: 10px;
+  canvas {
+    position: absolute;
+    display: block;
+    // background-color: #05f;
+    //* added for mobile ---
+    width: 100%;
+    height: 100%;
+  }
+  .image {
+    // position: absolute;
+    // z-index: 1000;
+    display: none;
+  }
+  .control {
+    position: absolute;
+    z-index: 100;
+    #warp-button {
+      font-family: 'Bangers';
+      padding: 5px 15px 3px 10px;
+      border-radius: 5px;
+      font-size: 2em;
+      color: #f00;
+      background-color: rgba(255,255,255,0.1);
+      box-shadow: inset -1px -1px 1px rgba(255,255,255,0.05),
+      inset 1px 1px 1px rgba(255,255,255,0.1),
+      1px 2px 5px rgba(0,0,0,0.3);
+      backdrop-filter: blur(5px);
+      margin: 10px;
+    }
   }
 }
 

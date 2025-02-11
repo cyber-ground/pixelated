@@ -262,14 +262,17 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
 //*                  --- PIXELATED IMAGE MOUSEMOVE VERSION 2.---
 // ---------------------------------------------------------------------------------
 
-
-  window.addEventListener('load', () => {
+window.addEventListener('load', () => {
+    const mobile = navigator.userAgent.match(/iPhone|Android.+Mobile/);
+    const container = document.querySelector('.container');
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d', {willReadFrequently: true});
     canvas.width = innerWidth;
     canvas.height = innerHeight;
     const PARTICLE_SIZE = 4;
-    const GAP = 4;
+    let GAP = 5;
+    if(mobile) { GAP = 4}
+    let touch = false;
     class Particle {
       constructor(effect, x, y, color) {
         this.effect = effect;
@@ -289,7 +292,7 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
       }
       draw(ctx) {
         // ctx.fillStyle = this.color;
-        // ctx.font = "3px Arial"; // PARTICLE_SIZE = 10 GAP = 3
+        // ctx.font = "30px Arial"; // PARTICLE_SIZE = 10 GAP = 3
         // ctx.textAlign = "center"; 
         // ctx.fillText(Math.floor(this.rand), this.x, this.y, this.size, this.size);
 
@@ -299,6 +302,8 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
         // ctx.fillStyle = this.color;;
         // ctx.ellipse(this.x, this.y, this.size, this.size, 0, 0, Math.PI*2);
         // ctx.fill();
+        //* wrap disable until all restructure
+        if(Math.abs(this.vx) < 0.0000001) { this.effect.warping = false}
       }
       movement() {
         const dx = this.effect.mouse.x - this.x;
@@ -336,28 +341,37 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
         this.x = this.cx - this.image.width/2;
         this.y = this.cy - this.image.height/2;
         this.gap = GAP;
+        this.warping = false;
         this.spawnParticles(ctx);
         this.mouse = {
           radius: 100,
           x: undefined,
           y: undefined
         }
-        document.addEventListener('mousemove', (e) => {
+        
+        container.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+        });
+        canvas.addEventListener('touchstart', (e) => {
+          if(!touch) {touch = true; e.stopPropagation()}
+        });
+        canvas.addEventListener('mousemove', (e) => {
           this.mouse.x = e.clientX;
           this.mouse.y = e.clientY;
-          console.log(this.mouse.x);
+          // console.log(this.mouse.x);
         });
         //* mobile event ---
-        document.addEventListener('touchmove', (e) => {
+        canvas.addEventListener('touchmove', (e) => {
           this.mouse.radius = 30;
           this.mouse.x = e.touches[0].clientX;
           this.mouse.y = e.touches[0].clientY;
         });
-        document.addEventListener('touchend', () => {
+        canvas.addEventListener('touchend', () => {
           setTimeout(() => {
             this.mouse.x = -this.mouse.radius;
             this.mouse.y = -this.mouse.radius;
           }, 100);
+          setTimeout(() => {touch = false}, 200);
         });
         //* fullSize ---
         // document.addEventListener('mouseleave', () => { 
@@ -384,13 +398,16 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
         }
       }
       draw(ctx) {
-        this.ParticleArr.forEach(particle => { particle.draw(ctx) });
+        this.ParticleArr.forEach(particle => { particle.draw(ctx)});
       }
       movement() {
-        this.ParticleArr.forEach(particle => { particle.movement() });
+        this.ParticleArr.forEach(particle => { particle.movement()});
       }
       warp() {
-        this.ParticleArr.forEach(particle => { particle.warp() });
+        if(!this.warping) {
+          this.warping = true;
+          this.ParticleArr.forEach(particle => { particle.warp()});
+        }
       }
       resize() {
         this.ParticleArr = [];
@@ -403,10 +420,10 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
         this.x = this.cx - this.image.width/2;
         this.y = this.cy - this.image.height/2;
         this.spawnParticles(ctx);
+        this.warping = false;
       }
     }
-
-    const effect = new Effect(canvas.width, canvas.height);
+    const effect = new Effect(canvas.width, canvas.height); //*>
 
     const warpBtn = document.getElementById('warp-button');
     warpBtn.addEventListener('click', () => {
@@ -414,6 +431,12 @@ import {console_color,console_red,console_orange,console_yellow,console_green,
       //* added for mobile ---
       effect.mouse.x = -effect.mouse.radius;
       effect.mouse.y = -effect.mouse.radius;
+    });
+    warpBtn.addEventListener('touchstart', (e) => {
+      if(!touch) { touch = true; e.stopPropagation()}
+    });
+    warpBtn.addEventListener('touchend', () => {
+      setTimeout(() => { touch = false}, 200);
     });
 
     function animate() {
